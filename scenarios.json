@@ -1,0 +1,133 @@
+[{
+  "schema_version": 1,
+  "name": "Glibertarians",
+  "description": "Receive RSS feed from https://glibertarians.com and post a message in the #general channel on the Glibertarians Discord.",
+  "source_url": false,
+  "guid": "de9532f2ec394ca0b9eb4ead222d6f1d",
+  "tag_fg_color": "#000000",
+  "tag_bg_color": "#fffe00",
+  "icon": "road",
+  "exported_at": "2017-09-24T20:23:03Z",
+  "agents": [
+    {
+      "type": "Agents::RssAgent",
+      "name": "Glibertarians RSS Feed",
+      "disabled": false,
+      "guid": "8cf18e33cc5723ab1189504be7f04a2a",
+      "options": {
+        "expected_update_period_in_days": "30",
+        "clean": "true",
+        "url": "https://glibertarians.com/feed/"
+      },
+      "schedule": "every_5m",
+      "keep_events_for": 604800
+    },
+    {
+      "type": "Agents::PostAgent",
+      "name": "Discord Post Hook",
+      "disabled": false,
+      "guid": "c7c52b3e5edb05bd1482cb909c940183",
+      "options": {
+        "post_url": "{% credential Glibs_Discord_Webhook %}",
+        "expected_receive_period_in_days": "1",
+        "content_type": "json",
+        "method": "post",
+        "payload": {
+          "embeds": [
+            {
+              "url": "{{ url }}",
+              "description": "{{ description }}",
+              "title": "{{ title }}",
+              "author": {
+                "name": "{{authors}}"
+              }
+            }
+          ]
+        },
+        "headers": {
+        },
+        "emit_events": "false",
+        "no_merge": "true",
+        "output_mode": "clean"
+      },
+      "schedule": "never",
+      "keep_events_for": 604800,
+      "propagate_immediately": true
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "receiver": 1
+    }
+  ],
+  "control_links": [
+
+  ]
+},{
+  "schema_version": 1,
+  "name": "SSC",
+  "description": "No description provided",
+  "source_url": false,
+  "guid": "961e4806001e88e8f5a7f35124abcfee",
+  "tag_fg_color": "#ffffff",
+  "tag_bg_color": "#5bc0de",
+  "icon": "gear",
+  "exported_at": "2017-09-24T20:23:03Z",
+  "agents": [
+    {
+      "type": "Agents::RssAgent",
+      "name": "SSC RSS Feed",
+      "disabled": false,
+      "guid": "0109919233078e6ae21093146f23e748",
+      "options": {
+        "expected_update_period_in_days": "30",
+        "clean": "true",
+        "url": "https://slatestarcodex.com/feed/"
+      },
+      "schedule": "every_5m",
+      "keep_events_for": 604800
+    },
+    {
+      "type": "Agents::PostAgent",
+      "name": "SSC Post Hook",
+      "disabled": false,
+      "guid": "e49ffd93fd50fd39ba1e912482bfa3e2",
+      "options": {
+        "post_url": "{% credential SSC_Discord_Webhook %}",
+        "expected_receive_period_in_days": "1",
+        "content_type": "json",
+        "method": "post",
+        "payload": {
+          "embeds": [
+            {
+              "url": "{{ url }}",
+              "description": "{{ description  | regex_replace: '<a .*</a>', '' }}",
+              "title": "{{ title }}",
+              "author": {
+                "name": "{{authors}}"
+              }
+            }
+          ]
+        },
+        "headers": {
+        },
+        "emit_events": "false",
+        "no_merge": "true",
+        "output_mode": "clean"
+      },
+      "schedule": "never",
+      "keep_events_for": 604800,
+      "propagate_immediately": true
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "receiver": 1
+    }
+  ],
+  "control_links": [
+
+  ]
+}]
